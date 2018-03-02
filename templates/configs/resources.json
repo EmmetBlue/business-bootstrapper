@@ -1,0 +1,17 @@
+{
+	"humanResources":[
+		"staffDepartment",
+		"staff",
+		"staffPassword",
+		"staffRole",
+		"staffProfileRecord",
+		"staffDepartment",
+		"departmentGroup",
+		"department"
+	],
+	"accounts":[
+		"payments",
+		"invoices",
+		"receipts"
+	]
+}

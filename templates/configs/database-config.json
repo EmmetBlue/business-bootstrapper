@@ -1,0 +1,8 @@
+{
+	"adapter":"SQLServer",
+	"server":"SAMUELS-PC",
+	"database":"EmmetBlue",
+	"username":"sa",
+	"password":"root",
+	"showError":true
+}
