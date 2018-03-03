@@ -3258,7 +3258,7 @@ GO
 CREATE TABLE [Staffs].[StaffPassword](
 	[StaffPasswordID] [int] IDENTITY(1,1) NOT NULL,
 	[StaffID] [int] NULL,
-	[StaffUsername] [varchar](20) NULL,
+	[StaffUsername] [varchar](100) NULL,
 	[PasswordHash] [varchar](max) NULL,
 	[PasswordSalt] [varchar](20) NULL,
 	[ModifiedDate] [datetime] NULL,
