@@ -70,6 +70,10 @@ function generateConfigs(string $path, string $id, array $options){
 
     //elasticsearch-config
     $elasticsearchConfig = file_get_contents("templates/configs/elasticsearch-config.json");
+    $elasticsearchConfig = json_decode($elasticsearchConfig, true);
+    $elasticsearchConfig["hosts"][0] = $options["elasticSearchHost"];
+
+    $elasticsearchConfig = json_encode($elasticsearchConfig);
     file_put_contents($path.$slash."confs".$slash.$id.$slash."elasticsearch-config.json", $elasticsearchConfig);
 
     //http-headers-config
