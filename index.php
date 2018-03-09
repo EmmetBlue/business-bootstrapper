@@ -11,6 +11,8 @@
 header('Access-Control-Allow-Headers: Content-Type, Cache-Control, X-Requested-With, Authorization');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 
+include_once("configs.php");
+
 if (!isset($_POST["id"])){
     // die("please provide a valid business id");
 }
@@ -144,18 +146,6 @@ function downloadApi($apiPath, $id, $globalsLocation){
     file_put_contents("$apiPath/$id/globals.json", json_encode($globals));
 }
 
-$path = "c:/emmetblue/src/condra-setup";
-$fileServer = "https://emmetblue.org.ng:702";
-$globalsLocation = "c:/emmetblue/src/condra-setup/globals";
-$apiPath = "c:/emmetblue/src/condra-setup/api";
-$options = [
-    "dbconfig"=>[
-        "server"=>"",
-        "dbprefix"=>"emmetblue-businessdb"
-    ]
-];
-$dbOptions = json_decode(file_get_contents("config.json"), true)["db"];
-
 
 $id = (string) $_POST["id"];
 $username = $_POST["username"];
@@ -163,10 +153,10 @@ $firstname = $_POST["firstname"];
 $lastname = $_POST["lastname"];
 $password = $_POST["password"];
 
-// initDirectories($path, $id);
-// generateGlobal($path, $id, $fileServer, $globalsLocation);
-// generateConfigs($path, $id, $options);
+initDirectories($path, $id);
+generateGlobal($path, $id, $fileServer, $globalsLocation);
+generateConfigs($path, $id, $options);
 initDB($options["dbconfig"]["dbprefix"]."-".$id, $dbOptions, $username, $password, $firstname, $lastname);
-// downloadApi($apiPath, $id, $globalsLocation);
+downloadApi($apiPath, $id, $globalsLocation);
 
 echo json_encode(["status"=>true]);
