@@ -12,7 +12,7 @@ header('Access-Control-Allow-Headers: Content-Type, Cache-Control, X-Requested-W
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 
 if (!isset($_POST["id"])){
-    die("please provide a valid business id");
+    // die("please provide a valid business id");
 }
 
 function initDirectories(string $path, string $id){
@@ -86,10 +86,19 @@ function generateConfigs(string $path, string $id, array $options){
 }
 
 function initDB($dbName, $dbOptions, $username, $password, $firstname, $lastname){
-    //install db
-    $dbInstallScript = file_get_contents("templates/sql/db.sql").file_get_contents("templates/sql/init.sql").file_get_contents("templates/sql/init-staff.sql");
-    $dbInstallScript = str_replace("[EmmetBlue]", "[$dbName]", $dbInstallScript);
+    //get db inits
+    $inits = "";
+    $dirContents = new \DirectoryIterator("./templates/sql/inits");
+    foreach ($dirContents as $content) {
+        if ($content->isDot()) continue;
 
+        $inits .= file_get_contents("./templates/sql/inits/".$content->getFilename());
+    }
+
+    //install db
+    $dbInstallScript = file_get_contents("./templates/sql/db.sql").$inits;
+    $dbInstallScript = str_replace("[EmmetBlue]", "[$dbName]", $dbInstallScript);
+    
     $password = password_hash($password, PASSWORD_DEFAULT);
     $uuid = substr(str_shuffle(MD5(microtime())), 0, 20);
 
@@ -153,10 +162,10 @@ $firstname = $_POST["firstname"];
 $lastname = $_POST["lastname"];
 $password = $_POST["password"];
 
-initDirectories($path, $id);
-generateGlobal($path, $id, $fileServer, $globalsLocation);
-generateConfigs($path, $id, $options);
+// initDirectories($path, $id);
+// generateGlobal($path, $id, $fileServer, $globalsLocation);
+// generateConfigs($path, $id, $options);
 initDB($options["dbconfig"]["dbprefix"]."-".$id, $dbOptions, $username, $password, $firstname, $lastname);
-downloadApi($apiPath, $id, $globalsLocation);
+// downloadApi($apiPath, $id, $globalsLocation);
 
 echo json_encode(["status"=>true]);
