@@ -14,7 +14,7 @@ header('Access-Control-Allow-Methods: POST, OPTIONS');
 include_once("configs.php");
 
 if (!isset($_POST["id"])){
-    // die("please provide a valid business id");
+    die("please provide a valid business id");
 }
 
 function initDirectories(string $path, string $id){
