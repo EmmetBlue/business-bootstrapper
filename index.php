@@ -147,6 +147,23 @@ function downloadApi($apiPath, $id, $globalsLocation){
     file_put_contents("$apiPath/$id/globals.json", json_encode($globals));
 }
 
+function createElasticSearchIndex($esUrl, $id){
+    $index = "archives_".$id;
+    $url = $esUrl."/".$index;
+    $data = array();
+
+    $options = array(
+        'http' => array(
+            'method'  => 'PUT',
+            'content' => http_build_query($data)
+        )
+    );
+    $context  = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
+
+    return $result;
+}
+
 
 $id = (string) $_POST["id"];
 $username = $_POST["username"];
@@ -154,10 +171,13 @@ $firstname = $_POST["firstname"];
 $lastname = $_POST["lastname"];
 $password = $_POST["password"];
 
-initDirectories($path, $id);
-generateGlobal($path, $id, $fileServer, $globalsLocation);
-generateConfigs($path, $id, $options);
-initDB($options["dbconfig"]["dbprefix"]."-".$id, $dbOptions, $username, $password, $firstname, $lastname);
-downloadApi($apiPath, $id, $globalsLocation);
+$responses = [];
 
-echo json_encode(["status"=>true]);
+$responses[] = initDirectories($path, $id);
+$responses[] = generateGlobal($path, $id, $fileServer, $globalsLocation);
+$responses[] = generateConfigs($path, $id, $options);
+$responses[] = initDB($options["dbconfig"]["dbprefix"]."-".$id, $dbOptions, $username, $password, $firstname, $lastname);
+$responses[] = downloadApi($apiPath, $id, $globalsLocation);
+$responses[] = createElasticSearchIndex($elasticSearchEndpoint, $id);
+
+echo json_encode(["status"=>true, "response"=>$responses]);
