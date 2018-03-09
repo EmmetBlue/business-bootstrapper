@@ -4,3 +4,4 @@ INSERT INTO FinancialAccounts.AccountTypeCategories (CategoryName, SideOnEquatio
 ('Equity accounts', 'L'),
 ('Revenue accounts', 'L'),
 ('Expense accounts', 'R')
+GO

@@ -1,4 +1,5 @@
 INSERT INTO Patients.FieldTitleType (TypeName) VALUES ('Name'), ('Text'), ('Number'), ('Date'), ('File') 
+GO
 INSERT INTO Patients.PatientRecordsFieldTitle (FieldTitleName, FieldTitleType) VALUES
 ('First Name', 'Name'),
 ('Last Name', 'Name'),
@@ -21,9 +22,11 @@ INSERT INTO Patients.PatientRecordsFieldTitle (FieldTitleName, FieldTitleType) V
 ('Next Of Kin', 'Name'),
 ('Patient', 'Number'),
 ('HMO Number', 'Name')
+GO
 INSERT INTO Patients.PatientRepositoryTypes VALUES
 ('prescription'),
 ('lab_result'),
 ('observation'),
 ('doctor_note'),
 ('payment_receipt')
+GO

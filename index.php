@@ -31,6 +31,7 @@ function generateGlobal(string $path, string $id, string $fileServer, string $gl
         "file-server-path"=>$path.$slash."files".$slash.$id.$slash,
         "patient-archive-dir"=> "bin/data/records/archives/patient/",
         "staff-archive-dir"=>"bin/data/records/archives/staff/",
+        "patient-es-archive-index"=>"archives_".$id,
 
         "config-dir"=> [
             "whitelists"=> $path.$slash."confs".$slash.$id.$slash."whitelists.json",
@@ -98,7 +99,7 @@ function initDB($dbName, $dbOptions, $username, $password, $firstname, $lastname
     //install db
     $dbInstallScript = file_get_contents("./templates/sql/db.sql").$inits;
     $dbInstallScript = str_replace("[EmmetBlue]", "[$dbName]", $dbInstallScript);
-    
+
     $password = password_hash($password, PASSWORD_DEFAULT);
     $uuid = substr(str_shuffle(MD5(microtime())), 0, 20);
 
@@ -149,7 +150,7 @@ $globalsLocation = "c:/emmetblue/src/condra-setup/globals";
 $apiPath = "c:/emmetblue/src/condra-setup/api";
 $options = [
     "dbconfig"=>[
-        "server"=>"SAMUELS-PC",
+        "server"=>"",
         "dbprefix"=>"emmetblue-businessdb"
     ]
 ];
