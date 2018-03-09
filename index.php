@@ -59,6 +59,7 @@ function generateConfigs(string $path, string $id, array $options){
     $dbConfig = json_decode(file_get_contents("templates/configs/database-config.json"), true);
     $dbConfig["server"] = $options["dbconfig"]["server"];
     $dbConfig["database"] = $options["dbconfig"]["dbprefix"]."-".$id;
+    $dbConfig["password"] = $options["dbconfig"]["password"];
 
     $dbConfig = json_encode($dbConfig);
     file_put_contents($path.$slash."confs".$slash.$id.$slash."database-config.json", $dbConfig);
@@ -135,7 +136,7 @@ function initDB($dbName, $dbOptions, $username, $password, $firstname, $lastname
 }
 
 function downloadApi($apiPath, $id, $globalsLocation){
-    $script = "git clone https://github.com/EmmetBlue/Emmet-Blue-Api.git $apiPath/$id/";
+    $script = "git clone https://github.com/EmmetBlue/Emmet-Blue-Api.git $apiPath/$id/ --single-branch --branch project-condra-dev";
     $output = shell_exec($script);
     echo $output;
     $script = "php $apiPath/$id/composer.phar install -d=$apiPath/$id/ --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader";
