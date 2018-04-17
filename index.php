@@ -34,6 +34,9 @@ function generateGlobal(string $path, string $id, string $fileServer, string $gl
         "patient-archive-dir"=> "bin/data/records/archives/patient/",
         "staff-archive-dir"=>"bin/data/records/archives/staff/",
         "patient-es-archive-index"=>"archives_".$id,
+        "fpcache-file":"",
+        "finger-matcher-executable":"",
+        "finger-match-threshold":"30",
 
         "config-dir"=> [
             "whitelists"=> $path.$slash."confs".$slash.$id.$slash."whitelists.json",
