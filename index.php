@@ -7,7 +7,6 @@
  *
  * As the name implies, this script helps set up a new business.
  */
-
 header('Access-Control-Allow-Headers: Content-Type, Cache-Control, X-Requested-With, Authorization');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 
@@ -34,9 +33,9 @@ function generateGlobal(string $path, string $id, string $fileServer, string $gl
         "patient-archive-dir"=> "bin/data/records/archives/patient/",
         "staff-archive-dir"=>"bin/data/records/archives/staff/",
         "patient-es-archive-index"=>"archives_".$id,
-        "fpcache-file":"",
-        "finger-matcher-executable":"",
-        "finger-match-threshold":"30",
+        "fpcache-file"=>"",
+        "finger-matcher-executable"=>"",
+        "finger-match-threshold"=>"30",
 
         "config-dir"=> [
             "whitelists"=> $path.$slash."confs".$slash.$id.$slash."whitelists.json",
@@ -144,11 +143,14 @@ function initDB($dbName, $dbOptions, $username, $password, $firstname, $lastname
 
 function downloadApi($apiPath, $id, $globalsLocation){
     $script = "git clone https://github.com/EmmetBlue/Emmet-Blue-Api.git $apiPath/$id/ --single-branch --branch project-condra-dev";
-    $output = shell_exec($script);
-    echo $output;
+    $out = exec(escapeshellcmd($script), $output);
+    print_r($output);
     $script = "php $apiPath/$id/composer.phar install -d=$apiPath/$id/ --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader";
-    $output = shell_exec($script);
-    echo $output;
+    $out = exec(escapeshellcmd($script), $output);
+    print_r($output);
+    $script = "php $apiPath/$id/composer.phar update -d=$apiPath/$id/";
+    $out = exec(escapeshellcmd($script), $output);
+    print_r($output);
 
     $globals = ["globals"=>$globalsLocation."/$id"];
     file_put_contents("$apiPath/$id/globals.json", json_encode($globals));
