@@ -13,9 +13,18 @@ header('Access-Control-Allow-Methods: POST, OPTIONS');
 include_once("configs.php");
 
 if (!isset($_POST["id"])){
-    die("please provide a valid business id");
+    die("please provide a valid business id"); //REFACTOR: poor design practice. Use an exception instead.
 }
 
+
+/*
+    REFACTOR
+
+    Why not reuse the same API controller code here an maintain
+    persistent configuration collection instead?
+
+    NoSQL???
+*/
 function initDirectories(string $path, string $id){
     $slash = DIRECTORY_SEPARATOR;
     mkdir($path.$slash."files".$slash.$id.$slash."bin/data/records/archives/patient", 0777, true);
@@ -91,6 +100,8 @@ function generateConfigs(string $path, string $id, array $options){
     file_put_contents($path.$slash."local".$slash.$id.$slash."session", $session);
 
     //init-acl
+
+    //REFACTOR: WHY? why not generate when needed? same value for every deployment??
     $acl = "TzoxNToiU2Ftc2hhbFxBY2xcQWNsIjo1OntzOjEyOiJyb2xlUmVnaXN0cnkiO086Mjk6IlNhbXNoYWxcQWNsXFJlZ2lzdHJ5XFJlZ2lzdHJ5IjoxOntzOjExOiIAKgByZWdpc3RyeSI7YToxOntzOjEzOiJhZG1pbmlzdHJhdG9yIjthOjA6e319fXM6MTk6IgAqAHJlc291cmNlUmVnaXN0cnkiO086Mjk6IlNhbXNoYWxcQWNsXFJlZ2lzdHJ5XFJlZ2lzdHJ5IjoxOntzOjExOiIAKgByZWdpc3RyeSI7YTowOnt9fXM6MjE6IgAqAHBlcm1pc3Npb25SZWdpc3RyeSI7TzoyOToiU2Ftc2hhbFxBY2xcUmVnaXN0cnlcUmVnaXN0cnkiOjE6e3M6MTE6IgAqAHJlZ2lzdHJ5IjthOjQ6e3M6NjoiY3JlYXRlIjthOjA6e31zOjQ6ImVkaXQiO2E6MDp7fXM6NjoiZGVsZXRlIjthOjA6e31zOjQ6InZpZXciO2E6MDp7fX19czoxNDoiZ2xvYmFsUmVnaXN0cnkiO086MzU6IlNhbXNoYWxcQWNsXFJlZ2lzdHJ5XEdsb2JhbFJlZ2lzdHJ5IjoxOntzOjExOiIAKgByZWdpc3RyeSI7YTowOnt9fXM6MTA6IgAqAHNlc3Npb24iO2E6MTp7czo1OiJxdWVyeSI7YjoxO319";
     file_put_contents($path.$slash."local".$slash.$id.$slash."acl", $acl);
 }
