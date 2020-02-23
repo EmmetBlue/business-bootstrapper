@@ -132,7 +132,6 @@ function initDB($dbName, $dbOptions, $username, $password, $firstname, $lastname
 
     $statements = explode("GO", $dbInstallScript);
 
-
     $server = $dbOptions["server"];
     $username = $dbOptions["username"];
     $password = $dbOptions["password"];
@@ -142,12 +141,14 @@ function initDB($dbName, $dbOptions, $username, $password, $firstname, $lastname
     $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
     foreach ($statements as $statement){
-        try{
-            $st = $pdo->prepare($statement);
-            $st->execute();
-        }
-        catch(\Exception $e){
-            echo $statement."\n";
+        if ($statement !== ""){
+            try{
+                $st = $pdo->prepare($statement);
+                $st->execute();
+            }
+            catch(\Exception $e){
+                echo $statement."\n";
+            }
         }
     }
 }
@@ -156,10 +157,10 @@ function downloadApi($apiPath, $id, $globalsLocation){
     $script = "git clone https://github.com/EmmetBlue/Emmet-Blue-Api.git $apiPath/$id/ --single-branch --branch project-condra-dev";
     $out = exec(escapeshellcmd($script), $output);
     print_r($output);
-    $script = "php $apiPath/$id/composer.phar install -d=$apiPath/$id/ --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader";
+    $script = "php $apiPath/$id/composer.phar install -d $apiPath/$id/ --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader";
     $out = exec(escapeshellcmd($script), $output);
     print_r($output);
-    $script = "php $apiPath/$id/composer.phar update -d=$apiPath/$id/";
+    $script = "php $apiPath/$id/composer.phar update -d $apiPath/$id/";
     $out = exec(escapeshellcmd($script), $output);
     print_r($output);
 
@@ -198,6 +199,6 @@ $responses[] = generateGlobal($path, $id, $fileServer, $globalsLocation);
 $responses[] = generateConfigs($path, $id, $options);
 $responses[] = initDB($options["dbconfig"]["dbprefix"]."-".$id, $dbOptions, $username, $password, $firstname, $lastname);
 $responses[] = downloadApi($apiPath, $id, $globalsLocation);
-$responses[] = createElasticSearchIndex($elasticSearchEndpoint, $id);
+// $responses[] = createElasticSearchIndex($elasticSearchEndpoint, $id);
 
 echo json_encode(["status"=>true, "response"=>$responses]);

@@ -68,7 +68,7 @@ ALTER DATABASE [EmmetBlue] SET TARGET_RECOVERY_TIME = 0 SECONDS
 GO
 ALTER DATABASE [EmmetBlue] SET DELAYED_DURABILITY = DISABLED 
 GO
-EXEC sys.sp_db_vardecimal_storage_format N'EmmetBlue', N'ON'
+EXEC sys.sp_db_vardecimal_storage_format [EmmetBlue], N'ON'
 GO
 USE [EmmetBlue]
 GO
@@ -5042,4 +5042,7 @@ GO
 USE [master]
 GO
 ALTER DATABASE [EmmetBlue] SET  READ_WRITE 
+GO
+
+USE [EmmetBlue]
 GO
