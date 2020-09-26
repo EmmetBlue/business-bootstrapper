@@ -10,7 +10,7 @@
 header('Access-Control-Allow-Headers: Content-Type, Cache-Control, X-Requested-With, Authorization');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 
-include_once("configs.php");
+require_once("configs.php");
 
 if (!isset($_POST["id"])){
     die("please provide a valid business id"); //REFACTOR: poor design practice. Use an exception instead.
@@ -20,7 +20,7 @@ if (!isset($_POST["id"])){
 /*
     REFACTOR
 
-    Why not reuse the same API controller code here an maintain
+    Why not reuse the same API controller code here and maintain
     persistent configuration collection instead?
 
     NoSQL???
