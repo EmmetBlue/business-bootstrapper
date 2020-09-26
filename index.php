@@ -154,7 +154,7 @@ function initDB($dbName, $dbOptions, $username, $password, $firstname, $lastname
 }
 
 function downloadApi($apiPath, $id, $globalsLocation){
-    $script = "git clone https://github.com/EmmetBlue/Emmet-Blue-Api.git $apiPath/$id/ --single-branch --branch project-condra-dev";
+    $script = "git clone https://github.com/myclinic-ng/Emmet-Blue-Api.git $apiPath/$id/ --single-branch --branch project-condra-dev";
     $out = exec(escapeshellcmd($script), $output);
     $script = "php $apiPath/$id/composer.phar install -d $apiPath/$id/ --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader";
     $out = exec(escapeshellcmd($script), $output);
