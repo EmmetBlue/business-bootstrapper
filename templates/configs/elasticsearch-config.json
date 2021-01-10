@@ -1,5 +1,5 @@
 {
 	"hosts":[
-		"localhost:9200"
+		"api.emmetblue.ng:9200"
 	]
 }

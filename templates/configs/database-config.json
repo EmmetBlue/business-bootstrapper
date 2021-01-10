@@ -1,8 +1,8 @@
 {
 	"adapter":"SQLServer",
-	"server":"SAMUELS-PC",
+	"server":"api.emmetblue.ng",
 	"database":"EmmetBlue",
-	"username":"sa",
-	"password":"root",
+	"username":"condra-user",
+	"password":"392847jkjA^@#*KDH137",
 	"showError":true
 }

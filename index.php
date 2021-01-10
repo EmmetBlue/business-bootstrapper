@@ -27,11 +27,11 @@ if (!isset($_POST["id"])){
 */
 function initDirectories(string $path, string $id){
     $slash = DIRECTORY_SEPARATOR;
-    mkdir($path.$slash."files".$slash.$id.$slash."bin/data/records/archives/patient", 0777, true);
-    mkdir($path.$slash."files".$slash.$id.$slash."bin/data/records/archives/staff", 0777, true);
+    mkdir($path.$slash."files".$slash.$id.$slash."bin/data/records/archives/patient", 0755, true);
+    mkdir($path.$slash."files".$slash.$id.$slash."bin/data/records/archives/staff", 0755, true);
 
-    mkdir($path.$slash."confs".$slash.$slash.$id, 0777, true);
-    mkdir($path.$slash."local".$slash.$id, 0777, true);
+    mkdir($path.$slash."confs".$slash.$slash.$id, 0755, true);
+    mkdir($path.$slash."local".$slash.$id, 0755, true);
 }
 
 function generateGlobal(string $path, string $id, string $fileServer, string $globalsLocation){
@@ -196,6 +196,6 @@ $responses[] = generateGlobal($path, $id, $fileServer, $globalsLocation);
 $responses[] = generateConfigs($path, $id, $options);
 $responses[] = initDB($options["dbconfig"]["dbprefix"]."-".$id, $dbOptions, $username, $password, $firstname, $lastname);
 $responses[] = downloadApi($apiPath, $id, $globalsLocation);
-// $responses[] = createElasticSearchIndex($elasticSearchEndpoint, $id);
+$responses[] = createElasticSearchIndex($elasticSearchEndpoint, $id);
 
 echo json_encode(["status"=>true, "response"=>$responses]);
