@@ -13,7 +13,6 @@ RUN printf "; priority=30\nextension=pdo_sqlsrv.so\n" > /etc/php/7.4/mods-availa
 RUN phpenmod -v 7.4 sqlsrv pdo_sqlsrv
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-RUN composer -n --working-dir=/var/www/html/provider-tenancy install
 # RUN curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
 # RUN apt-get update -yq --allow-unauthenticated --allow-insecure-repositories && ACCEPT_EULA=Y apt-get install -yq msodbcsql17  --allow-unauthenticated
 
