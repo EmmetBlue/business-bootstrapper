@@ -10,10 +10,12 @@ RUN chown -R www-data:www-data /var/www/html && chmod -R g+rw /var/www/html
 RUN pecl install sqlsrv && pecl install pdo_sqlsrv
 RUN printf "; priority=20\nextension=sqlsrv.so\n" > /etc/php/7.4/mods-available/sqlsrv.ini
 RUN printf "; priority=30\nextension=pdo_sqlsrv.so\n" > /etc/php/7.4/mods-available/pdo_sqlsrv.ini
-RUN phpenmod -v 7.4 sqlsrv pdo_sqlsrv
+RUN phpenmod -v 7.4 sqlsrv pdo_sqlsrv curl simplexml
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-# RUN curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
-# RUN apt-get update -yq --allow-unauthenticated --allow-insecure-repositories && ACCEPT_EULA=Y apt-get install -yq msodbcsql17  --allow-unauthenticated
+RUN wget http://archive.ubuntu.com/ubuntu/pool/main/g/glibc/multiarch-support_2.27-3ubuntu1.4_amd64.deb
+RUN apt-get install ./multiarch-support_2.27-3ubuntu1.4_amd64.deb
+RUN curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+RUN apt-get update -yq --allow-unauthenticated --allow-insecure-repositories && ACCEPT_EULA=Y apt-get install -yq libodbc1 unixodbc msodbcsql17 mssql-tools unixodbc-dev  --allow-unauthenticated
 
-EXPOSE 80 90 100 110
+EXPOSE 80 90 100 110 120
